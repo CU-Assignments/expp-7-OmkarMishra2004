@@ -1,0 +1,50 @@
+import java.sql.*;
+import java.util.Scanner;
+
+public class ProductCRUDApp {
+    private static final String URL = "jdbc:mysql://localhost:3306/your_database"; // Change as needed
+    private static final String USER = "root"; // Change as needed
+    private static final String PASSWORD = "password"; // Change as needed
+    private static Connection conn;
+
+    public static void main(String[] args) {
+        try {
+            // Establish database connection
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            conn.setAutoCommit(false); // Enable transaction management
+            
+            Scanner scanner = new Scanner(System.in);
+            while (true) {
+                System.out.println("\n---- Product Management System ----");
+                System.out.println("1. Add Product");
+                System.out.println("2. View Products");
+                System.out.println("3. Update Product");
+                System.out.println("4. Delete Product");
+                System.out.println("5. Exit");
+                System.out.print("Enter your choice: ");
+                
+                int choice = scanner.nextInt();
+                scanner.nextLine(); // Consume newline
+                
+                switch (choice) {
+                    case 1 -> addProduct(scanner);
+                    case 2 -> viewProducts();
+                    case 3 -> updateProduct(scanner);
+                    case 4 -> deleteProduct(scanner);
+                    case 5 -> {
+                        System.out.println("Exiting...");
+                        conn.close();
+                        return;
+                    }
+                    default -> System.out.println("Invalid choice! Please try again.");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void addProduct(Scanner scanner) {
+        try {
+            System.out.print("Enter Product Name: ");
+            String nam
